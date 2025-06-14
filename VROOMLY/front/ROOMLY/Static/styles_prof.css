@@ -1,0 +1,420 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+/* Анимированный градиентный фон */
+body {
+    width: 100%;
+    height: 100vh; /* На всю высоту экрана */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Чтобы избежать горизонтального скролла */
+    overflow-y: auto; /* Разрешаем вертикальный скролл */
+
+    /* Градиентный фон с анимацией */
+    background: linear-gradient(
+        -45deg,
+        #7FFFD4,  /* Основной цвет Tiffany */
+        #AFEEEE,  /* Светлый оттенок Tiffany */
+        #7FFFD4,  /* Тёмный оттенок Tiffany */
+        #00FFFF,  /* Голубоватый оттенок */
+        #7FFFD4
+    );
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+}
+
+/* Анимация градиента */
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Стили для навигационного меню */
+nav {
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: Courier New, monospace;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+/* Стили для нижней чёрной полосы */
+footer {
+    background-color: #333; /* Цвет фона */
+    color: white; /* Цвет текста */
+    text-align: center; /* Выравнивание по центру */
+    font-family: Courier New, monospace;
+    padding: 10px; /* Отступы внутри */
+    position: fixed; /* Фиксированное положение */
+    left: 0;
+    bottom: 0;
+    width: 100%; /* Ширина на всю страницу */
+}
+
+h1 {
+    font-size: 90px;
+    text-align: center;
+    margin-top: 45px;
+    font-family: 'Russo One', sans-serif;
+    color: #333;
+    opacity: 0; /* Начальная прозрачность */
+    animation: fadeIn 1s ease-in-out forwards; /* Анимация появления */
+}
+
+p {
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+    opacity: 0; /* Начальная прозрачность */
+    animation: fadeIn 1s ease-in-out forwards; /* Анимация с задержкой */
+}
+
+a {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+    opacity: 0; /* Начальная прозрачность */
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Начальное состояние: полностью прозрачный */
+    }
+    to {
+        opacity: 1; /* Конечное состояние: полностью видимый */
+    }
+}
+
+/* Новые улучшения */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    padding-bottom: 60px; /* Чтобы контент не перекрывался футером */
+}
+
+.profile-info {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.profile-info h3 {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    color: #333;
+}
+
+.profile-info p {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.profile-info .email {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0ABAB5;
+    text-align: center;
+}
+
+.profile-info .joined-date {
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+}
+
+.bookings-list {
+    margin: 20px 0;
+    text-align: center; /* Центрируем весь список бронирований */
+}
+
+.booking-item {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center; /* Центрируем содержимое каждого бронирования */
+}
+
+.booking-item p {
+    margin: 5px 0;
+    text-align: center; /* Центрируем текст в бронировании */
+}
+
+.profile-info .actions {
+    margin-top: 20px;
+    text-align: center; /* Центрируем кнопки действий */
+}
+
+.profile-info .actions a {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    background-color: #0ABAB5;
+    transition: background-color 0.3s ease;
+}
+
+.profile-info .actions a:hover {
+    background-color: #0A9AB5;
+}
+
+.profile-info .actions .logout-btn {
+    background-color: #f44336; /* Красный */
+}
+
+.profile-info .actions .logout-btn:hover {
+    background-color: #d32f2f; /* Тёмно-красный */
+}
+
+.cancel-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    background-color: #f44336;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+.flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100; /* Должен быть выше, чем у других элементов */
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавляем тень для лучшей видимости */
+            opacity: 0.95; /* Легкая прозрачность */
+            animation:
+                      slideDown 0.5s ease-out,
+                      fadeOut 0.5s ease-out 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+                height: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 0.95;
+            }
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+.form-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 400px;
+    padding: 20px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.form-container input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    background-color: #0ABAB5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.form-container button:hover {
+    background-color: #0A9AB5;
+}
+
+.form-container p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+}
+
+.form-container a {
+    color: #0ABAB5;
+    text-decoration: none;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+
+
+.superuser-actions {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.superuser-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.superuser-btn:hover {
+    background-color: #45a049;
+}
+
+.booking-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.booking-item p {
+    margin: 5px 0;
+}
+
+.cancel-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+}
+
+.pagination {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination a {
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #e9ecef;
+}
+
+.current-page {
+    padding: 5px 10px;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.back-btn:hover {
+    background-color: #5a6268;
+}

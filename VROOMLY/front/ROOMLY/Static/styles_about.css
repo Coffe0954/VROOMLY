@@ -1,0 +1,186 @@
+        @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+         /* Анимированный градиентный фон */
+        body {
+            width: 100%;
+            height: 100vh; /* На всю высоту экрана */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Чтобы избежать скролла */
+
+            /* Градиентный фон с анимацией */
+            background: linear-gradient(
+                -45deg,
+                #7FFFD4,  /* Основной цвет Tiffany */
+                #AFEEEE,  /* Светлый оттенок Tiffany */
+                #7FFFD4,  /* Тёмный оттенок Tiffany */
+                #00FFFF,  /* Голубоватый оттенок */
+                #7FFFD4
+            );
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+        }
+
+        /* Анимация градиента */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Стили для навигационного меню */
+        nav {
+            background-color: #333; /* Цвет фона меню */
+            padding: 10px; /* Отступы внутри меню */
+            text-align: center; /* Выравнивание по центру */
+        }
+        nav a {
+            color: white; /* Цвет текста ссылок */
+            margin: 0 15px; /* Отступы между ссылками */
+            text-decoration: none; /* Убираем подчёркивание */
+            font-size: 18px; /* Размер шрифта */
+            font-family: Courier New, monospace; /* Шрифт */
+        }
+        nav a:hover {
+            color: #ffcc00; /* Цвет текста при наведении */
+        }
+
+        /* Стили для нижней чёрной полосы */
+        footer {
+            background-color: #333; /* Цвет фона */
+            color: white; /* Цвет текста */
+            text-align: center; /* Выравнивание по центру */
+            font-family: Courier New, monospace;
+            padding: 10px; /* Отступы внутри */
+            position: fixed; /* Фиксированное положение */
+            left: 0;
+            bottom: 0;
+            width: 100%; /* Ширина на всю страницу */
+        }
+
+        h1 {
+            font-size: 90px;
+            text-align: center;
+            margin-top: 75px;
+            font-family: 'Russo One', sans-serif;
+            color: #333;
+            opacity: 0; /* Начальная прозрачность */
+            animation: fadeIn 1s ease-in-out forwards; /* Анимация появления */
+        }
+
+        p {
+            text-align: center;
+            font-size: 35px;
+            margin-top: 20px;
+            font-family: 'Russo One', sans-serif;
+            color: #333;
+            opacity: 0; /* Начальная прозрачность */
+            animation: fadeIn 1s ease-in-out 1s forwards; /* Анимация с задержкой */
+        }
+
+        /* Анимация появления */
+        @keyframes fadeIn {
+            from {
+                opacity: 0; /* Начальное состояние: полностью прозрачный */
+            }
+            to {
+                opacity: 1; /* Конечное состояние: полностью видимый */
+            }
+        }
+
+/* Стили для карточек */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Расстояние между карточками */
+    flex-wrap: wrap;
+    margin-top: 50px;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 1s forwards;
+}
+
+.card {
+    width: 300px; /* Ширина карточки */
+    height: 450px; /* Высота карточки */
+    background: #ffffff; /* Белый фон */
+    border-radius: 15px; /* Закругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для карточки */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px; /* Внутренние отступы */
+    position: relative; /* Для позиционирования кнопки и иконок */
+    overflow: hidden; /* Чтобы фото не выходило за пределы карточки */
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Эффект поднятия карточки при наведении */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Увеличение тени при наведении */
+}
+
+.card span {
+    font-weight: bold;
+    color: #333; /* Темный цвет текста */
+    font-family: 'Russo One', sans-serif; /* Шрифт */
+    text-align: center;
+    display: block;
+    font-size: 1.5em; /* Увеличиваем размер текста */
+    margin-top: 15px; /* Отступ сверху для имени */
+    margin-bottom: 5px;
+}
+
+.card img {
+    width: 100%; /* Фото занимает всю ширину карточки */
+    height: 350px; /* Увеличиваем высоту фото */
+     /* Чтобы изображение не искажалось */
+    border-radius: 10px; /* Закругленные углы у фото */
+    align: center;
+}
+
+.card .share {
+    position: absolute; /* Позиционируем иконки справа снизу */
+    bottom: 25px;
+    right: 20px;
+    display: flex;
+    gap: 10px; /* Расстояние между иконками */
+}
+
+.card a {
+    color: #333; /* Темный цвет иконок */
+    transition: color 0.3s ease;
+    font-size: 1.4em; /* Увеличиваем размер иконок */
+}
+
+.card a:hover {
+    color: #7FFFD4; /* Цвет при наведении */
+}
+
+.card button {
+    position: absolute; /* Позиционируем кнопку слева снизу */
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 20px; /* Увеличиваем ширину кнопки */
+    width: 225px; /* Ширина кнопки по содержимому */
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    background: #333; /* Черный фон кнопки */
+    color: white; /* Белый текст */
+    transition: background 0.3s ease;
+    cursor: pointer;
+    font-size: 1em; /* Размер текста кнопки */
+}
+
+.card button:hover {
+    background: #333; /* Темно-серый при наведении */
+}

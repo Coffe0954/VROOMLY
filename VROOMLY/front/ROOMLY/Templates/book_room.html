@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронирование комнаты</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_book_room.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/rooms">Комнаты</a>
+        <a href="/profile">Личный кабинет</a>
+        <a href="{{ url_for('ai.index') }}" class="btn btn-primary">Мероприятия</a>
+        <a href="/about">О нас</a>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="page-title">Бронирование комнаты</h1>
+        <div class="room-container">
+            <div class="room-info-card">
+                <div class="room-gallery">
+                    <div class="gallery-container" id="galleryContainer">
+                        {% if photos %}
+                            {% for photo in photos %}
+                                <div class="gallery-slide">
+                                    <img src="{{ photo.photo_url }}" alt="{{ room.name }}">
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="gallery-slide">
+                                <img src="https://i.ibb.co/BVR0ZjRY/peregovorochka.jpg" alt="{{ room.name }}">
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="gallery-btn" id="prevBtn">❮</button>
+                        <button class="gallery-btn" id="nextBtn">❯</button>
+                    </div>
+                    <div class="gallery-dots" id="galleryDots"></div>
+                </div>
+                <div class="room-details">
+                    <h2>{{ room.name }}</h2>
+                    <p><strong>Вместимость:</strong> {{ room.capacity }} человек</p>
+                    <p><strong>Оснащение:</strong> {{ room.equipment }}</p>
+                </div>
+            </div>
+
+            <div class="booking-form-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('book_room', room_id=room.id) }}" class="booking-form" id="bookingForm">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label for="start_time">Дата и время начала бронирования:</label>
+                            <input type="datetime-local" id="start_time" name="start_time" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Выберите продолжительность:</label>
+                            <div class="duration-options" id="durationOptions">
+                                <button type="button" class="duration-btn" data-duration="1">1 час</button>
+                                <button type="button" class="duration-btn" data-duration="2">2 часа</button>
+                                <button type="button" class="duration-btn" data-duration="3">3 часа</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="end_time">Дата и время окончания бронирования:</label>
+                            <input type="datetime-local" id="end_time" name="end_time" class="form-control" required readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="purpose">Цель бронирования:</label>
+                            <input type="text" id="purpose" name="purpose" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="book-btn">Забронировать</button>
+                        <a href="{{ url_for('rooms') }}" class="cancel-btn">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 ROOMLY. Все права защищены.
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Галерея фотографий
+        const galleryContainer = document.getElementById('galleryContainer');
+        const slides = document.querySelectorAll('.gallery-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const galleryDots = document.getElementById('galleryDots');
+
+        let currentSlide = 0;
+        const slideCount = slides.length;
+
+        // Создаем точки навигации
+        if (slideCount > 1) {
+            for (let i = 0; i < slideCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('gallery-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                galleryDots.appendChild(dot);
+            }
+        } else {
+            galleryDots.style.display = 'none';
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
+        function goToSlide(slideIndex) {
+            currentSlide = (slideIndex + slideCount) % slideCount;
+            galleryContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Обновляем активную точку
+            document.querySelectorAll('.gallery-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // Автоматическое перелистывание (опционально)
+        let slideInterval = setInterval(() => {
+            if (slideCount > 1) goToSlide(currentSlide + 1);
+        }, 5000);
+
+        galleryContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        galleryContainer.addEventListener('mouseleave', () => {
+            slideInterval = setInterval(() => {
+                if (slideCount > 1) goToSlide(currentSlide + 1);
+            }, 5000);
+        });
+
+        // Логика бронирования
+        const startTimeInput = document.getElementById('start_time');
+        const endTimeInput = document.getElementById('end_time');
+        const durationButtons = document.querySelectorAll('.duration-btn');
+        const bookingForm = document.getElementById('bookingForm');
+
+        // Устанавливаем текущую дату и время как минимальное значение
+        const now = new Date();
+        const timezoneOffset = now.getTimezoneOffset() * 60000;
+        const localISOTime = new Date(now - timezoneOffset).toISOString().slice(0, 16);
+        startTimeInput.min = localISOTime;
+        startTimeInput.value = localISOTime;
+
+        // Функция для добавления часов к дате
+        function addHours(date, hours) {
+            const result = new Date(date);
+            result.setTime(result.getTime() + (hours * 60 * 60 * 1000));
+            return result;
+        }
+
+        // Функция для форматирования даты
+        function formatDateTime(date) {
+            const pad = num => num.toString().padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        }
+
+        // Обновление времени окончания
+        function updateEndTime(hours) {
+            if (!startTimeInput.value) {
+                alert('Пожалуйста, сначала выберите время начала');
+                return;
+            }
+
+            try {
+                const startTime = new Date(startTimeInput.value);
+                const endTime = addHours(startTime, hours);
+                endTimeInput.value = formatDateTime(endTime);
+            } catch (error) {
+                console.error('Ошибка при расчете времени:', error);
+                alert('Произошла ошибка при расчете времени');
+            }
+        }
+
+        // Обработчики для кнопок продолжительности
+        durationButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Удаляем активный класс у всех кнопок
+                durationButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Добавляем активный класс текущей кнопке
+                this.classList.add('active');
+
+                // Получаем продолжительность
+                const duration = parseInt(this.getAttribute('data-duration'));
+
+                // Обновляем время окончания
+                updateEndTime(duration);
+            });
+        });
+
+        // Обработчик изменения времени начала
+        startTimeInput.addEventListener('change', function() {
+            const activeButton = document.querySelector('.duration-btn.active');
+            if (activeButton) {
+                const duration = parseInt(activeButton.getAttribute('data-duration'));
+                updateEndTime(duration);
+            }
+        });
+
+        // Автоматически выбираем 1 час при загрузке
+        if (durationButtons.length > 0) {
+            durationButtons[0].click();
+        }
+
+        // Проверка перед отправкой формы
+        bookingForm.addEventListener('submit', function(e) {
+            if (!endTimeInput.value) {
+                e.preventDefault();
+                alert('Пожалуйста, выберите продолжительность бронирования');
+                return;
+            }
+
+            const startTime = new Date(startTimeInput.value);
+            const endTime = new Date(endTimeInput.value);
+
+            if (startTime >= endTime) {
+                e.preventDefault();
+                alert('Время окончания должно быть позже времени начала');
+                return;
+            }
+
+            if (startTime < new Date()) {
+                e.preventDefault();
+                alert('Нельзя забронировать комнату в прошлом');
+                return;
+            }
+        });
+    });
+    </script>
+</body>
+</html>
