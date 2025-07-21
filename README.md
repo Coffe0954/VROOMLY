@@ -17,7 +17,7 @@ ROOMLY - это веб-сервис для удобного бронирован
 - Backend: Python, Flask
 - Database: SQLite
 - Frontend: HTML, CSS, JavaScript
-- Безопасность: хеширование паролей, CSRF защита, Werkzeug
+- Безопасность: хеширование паролей, CSRF защита
 
 Возможное развитие проекта (согласно приложенному изображению)
 1.Масштабируемая система бронирования для офисной сети 
@@ -46,7 +46,7 @@ Technologies
 - Backend: Python, Flask
 - Database: SQLite
 - Frontend: HTML, CSS, JavaScript
-- Security: password hashing, CSRF protection, Werkzeug
+- Security: password hashing, CSRF protection
 
 Possible development of the project (according to the attached image)
 1.Scalable booking system for the office network 
